@@ -21,15 +21,17 @@ static void update_time()
     {
         // Use 24 hour format
         strftime(time_buffer,sizeof("HH:MM AM"),"%H:%M",tick_time);
+		text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_MEDIUM_NUMBERS));
     }
     else
     {
         // Use 12 hour format
         strftime(time_buffer,sizeof("HH:MM AM"),"%I:%M %p",tick_time);
+		text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
     }
 
     // Display this time on the TextLayer
-    text_layer_set_text(s_time_layer, tim_buffer);
+    text_layer_set_text(s_time_layer, time_buffer);
     text_layer_set_text(s_date_layer, date_buffer);
 }
 
@@ -50,11 +52,16 @@ static void main_window_load(Window *window)
     text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
 
     // Create date TextLayer
-    s_time_layer = text_layer_create(GRect(0, 55, 144, 50));
+    s_time_layer = text_layer_create(GRect(0, 60, 144, 50));
     text_layer_set_background_color(s_time_layer, GColorBlack);
     text_layer_set_text_color(s_time_layer, GColorClear);
-    text_layer_set_text(s_time_layer, "00:00");
-    text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_MEDIUM_NUMBERS));
+    text_layer_set_text(s_time_layer, "00:00 AM");
+	if(clock_is_24h_style()==true){
+		text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_MEDIUM_NUMBERS));
+	}
+	else{
+    	text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
+	}
     text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
 
     // Add it as a child layer to the Window's root layer
